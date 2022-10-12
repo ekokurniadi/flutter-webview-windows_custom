@@ -66,7 +66,7 @@ class _ExampleBrowser extends State<ExampleBrowser> {
       if (!mounted) return;
       setState(() {});
     } on PlatformException catch (e) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
         showDialog(
             context: context,
             builder: (_) => AlertDialog(

@@ -19,7 +19,7 @@ typedef PermissionRequestedDelegate
     = FutureOr<WebviewPermissionDecision> Function(
         String url, WebviewPermissionKind permissionKind, bool isUserInitiated);
 
-typedef ScriptID = String;
+// typedef ScriptID = String;
 
 /// Attempts to translate a button constant such as [kPrimaryMouseButton]
 /// to a [PointerButton]
@@ -333,19 +333,19 @@ class WebviewController extends ValueNotifier<WebviewValue> {
   /// Returns a [ScriptID] on success which can be used for [removeScriptToExecuteOnDocumentCreated].
   ///
   /// see https://docs.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2?view=webview2-1.0.1264.42#addscripttoexecuteondocumentcreated
-  Future<ScriptID?> addScriptToExecuteOnDocumentCreated(String script) async {
+  Future<String?> addScriptToExecuteOnDocumentCreated(String script) async {
     if (_isDisposed) {
       return null;
     }
     assert(value.isInitialized);
-    return _methodChannel.invokeMethod<String?>(
+    return _methodChannel.invokeMethod(
         'addScriptToExecuteOnDocumentCreated', script);
   }
 
   /// Removes the script identified by [scriptId] from the list of registered scripts.
   ///
   /// see https://docs.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2?view=webview2-1.0.1264.42#removescripttoexecuteondocumentcreated
-  Future<void> removeScriptToExecuteOnDocumentCreated(ScriptID scriptId) async {
+  Future<void> removeScriptToExecuteOnDocumentCreated(String scriptId) async {
     if (_isDisposed) {
       return null;
     }
@@ -590,7 +590,7 @@ class _WebviewState extends State<Webview> {
     _controller._permissionRequested = widget.permissionRequested;
 
     // Report initial surface size
-    WidgetsBinding.instance.addPostFrameCallback((_) => _reportSurfaceSize());
+    WidgetsBinding.instance?.addPostFrameCallback((_) => _reportSurfaceSize());
 
     _cursorSubscription = _controller._cursor.listen((cursor) {
       setState(() {
